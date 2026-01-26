@@ -34,13 +34,23 @@ const initDB = async() => {
             availability_status VARCHAR(100) NOT NULL
             )
             `);
-        
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS bookings(
+            id SERIAL PRIMARY KEY,
+            customer_id INT REFERENCES users(id) ON DELETE CASCADE,
+            vehicle_id INT REFERENCES vehicles(id) ON DELETE CASCADE,
+            rent_start_date DATE NOT NULL,
+            rent_end_date DATE NOT NULL,
+            total_price INT NOT NULL,
+            status VARCHAR(100)
+            )
+            `)
 }
 
 initDB()
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!')
+  res.send('Hello B6A2 World!')
 })
 
 app.post("/", (req: Request, res: Response) => {
